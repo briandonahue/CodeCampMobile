@@ -1,4 +1,4 @@
 bin
 object
 *.userprefs
-**/.DS_store
+.DS_Store
