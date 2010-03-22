@@ -67,6 +67,16 @@
       <DependentUpon>MainWindow.xib</DependentUpon>
     </Compile>
     <Compile Include="Main.cs" />
+    <Compile Include="NavigationController.cs" />
+    <Compile Include="HomeController.cs" />
+    <Compile Include="SessionTimeDataSource.cs" />
+    <Compile Include="HomeTableDelegate.cs" />
+    <Compile Include="SessionListController.cs" />
+    <Compile Include="StubSessionRepo.cs" />
+    <Compile Include="ISessionRepository.cs" />
+    <Compile Include="SessionListDataSource.cs" />
+    <Compile Include="SessionListTableDelegate.cs" />
+    <Compile Include="SessionDetailsController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xib" />
