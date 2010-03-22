@@ -12,6 +12,7 @@ public class HomeController : UITableViewController
     {
 	    	TableView.DataSource = new SessionTimeDataSource();
 	    	TableView.Delegate = new HomeTableDelegate(this);
+	    	Title = "Philly.NET Code Camp";
 
     	base.ViewDidLoad ();
     }

@@ -21,7 +21,7 @@ namespace CodeCampSchedule
 
 		public override string TitleForHeader (UITableView tableView, int section)
 		{
-			return "Items";
+			return "Schedule";
 		}
 
 		public override int RowsInSection (UITableView tableview, int section)

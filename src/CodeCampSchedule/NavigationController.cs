@@ -14,7 +14,6 @@ public class NavigationController : UINavigationController
     {
     	homeController = new HomeController();
     	PushViewController(homeController, true);
-
     	base.ViewDidLoad ();
     }
 }
