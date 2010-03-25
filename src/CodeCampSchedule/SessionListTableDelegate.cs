@@ -19,7 +19,7 @@ namespace CodeCampSchedule
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-				sessionListController.NavigationController.PushViewController (new SessionDetails(), true);
+				sessionListController.NavigationController.PushViewController (new SessionDetailsController(), true);
 		}
 	}
 }
