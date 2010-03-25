@@ -77,9 +77,16 @@
     <Compile Include="SessionListDataSource.cs" />
     <Compile Include="SessionListTableDelegate.cs" />
     <Compile Include="SessionDetailsController.cs" />
+    <Compile Include="SessionDetails.xib.cs">
+      <DependentUpon>SessionDetails.xib</DependentUpon>
+    </Compile>
+    <Compile Include="SessionDetails.xib.designer.cs">
+      <DependentUpon>SessionDetails.xib</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xib" />
+    <Page Include="SessionDetails.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

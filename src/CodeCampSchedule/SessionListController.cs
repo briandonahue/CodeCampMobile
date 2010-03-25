@@ -21,12 +21,12 @@ namespace CodeCampSchedule
 			sessionRepo = new StubSessionRepo();
 		}
 		
-		public override void ViewWillAppear (bool animated)
+		public override void ViewDidLoad ()
 		{
 			TableView.DataSource = new SessionListDataSource();
 			TableView.Delegate = new SessionListTableDelegate(this);
 //			sessions = sessionRepo.GetSessionsForTime(sessionTime); 
-			base.ViewWillAppear (animated);
+			base.ViewDidLoad ();
 		}
 
 	}
