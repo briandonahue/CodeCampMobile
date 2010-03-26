@@ -2,3 +2,18 @@ bin
 object
 *.userprefs
 .DS_Store
+*.swp
+
+obj
+Obj
+bin
+Bin
+ClientBin
+*.user
+*.suo
+_ReSharper.*
+*.cache
+* Thumbs.db
+*.log
+.idea
+*.resharper
