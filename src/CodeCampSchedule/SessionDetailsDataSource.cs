@@ -14,10 +14,15 @@ namespace CodeCampSchedule
 		IList<SessionSectionData> sectionData;
 		public SessionDetailsDataSource ()
 		{
+			var cellId = "section1";
 			sectionData = new List<SessionSectionData>{
-				new SessionSectionData("section1"){
+				new SessionSectionData(cellId){
 					Title = "Session",
-					Data = new List<string>{"Session Name", "Speaker Name", "room", "time"}
+					Data = new List<UITableViewCell>
+					{
+						new SessionTitleCell("Session Name Is Very Long", cellId),
+						new UITableViewCell(UITableViewCellStyle.Default, cellId),
+						new SessionTimeCell("8:30 AM", "Room 141", cellId)}
 				}
 			};
 			
@@ -47,8 +52,8 @@ namespace CodeCampSchedule
 			var cell = tableView.DequeueReusableCell(cellId);
 			if(cell == null)
 			{
-				cell = new UITableViewCell(UITableViewCellStyle.Default, cellId);
-				cell.TextLabel.Text = row;
+				
+				cell = row;
 			}
 			
 			return cell;
@@ -60,11 +65,29 @@ namespace CodeCampSchedule
 	{
 		public string Title {get; set;}
 		public string CellId {get;set;}
-		public IList<string> Data { get; set; }
+		public IList<UITableViewCell> Data { get; set; }
 		
 		public SessionSectionData(string cellId)
 		{
 			CellId = cellId;
 		}
 	}		
+	
+	class SessionTitleCell: UITableViewCell
+	{
+		
+		public SessionTitleCell(string title, string cellId):base(UITableViewCellStyle.Default, cellId)
+		{
+			TextLabel.Text = title;			
+		}
+	}
+	
+	class SessionTimeCell: UITableViewCell
+	{
+		public SessionTimeCell(string time, string room, string cellId):base(UITableViewCellStyle.Subtitle, cellId)
+		{
+			TextLabel.Text = time;
+			this.DetailTextLabel.Text = room;
+		}
+	}
 }
