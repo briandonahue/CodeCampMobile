@@ -47,10 +47,13 @@
   <ItemGroup>
     <Compile Include="AsyncFileDownloader.cs" />
     <Compile Include="DataExtractor.cs" />
+    <Compile Include="Data\Session.cs" />
+    <Compile Include="Data\Speaker.cs" />
+    <Compile Include="Data\TimeSlot.cs" />
+    <Compile Include="Data\Track.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionDTO.cs" />
     <Compile Include="SQLite.cs" />
-    <Compile Include="SQLite.MonoTouchAdmin.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
