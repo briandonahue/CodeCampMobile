@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCampSchedule", "src\CodeCampSchedule\CodeCampSchedule.csproj", "{5D0F31DB-6A1C-4A16-8A1F-AE0627C467ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCampSchedule.Core", "src\CodeCampSchedule.Core\CodeCampSchedule.Core.csproj", "{4949B4F9-6729-45A7-807C-6C9EB97324A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -11,6 +13,14 @@ Global
 		Release|iPhone = Release|iPhone
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4949B4F9-6729-45A7-807C-6C9EB97324A8}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{4949B4F9-6729-45A7-807C-6C9EB97324A8}.Debug|iPhone.Build.0 = Debug|iPhone
+		{4949B4F9-6729-45A7-807C-6C9EB97324A8}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{4949B4F9-6729-45A7-807C-6C9EB97324A8}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{4949B4F9-6729-45A7-807C-6C9EB97324A8}.Release|iPhone.ActiveCfg = Release|iPhone
+		{4949B4F9-6729-45A7-807C-6C9EB97324A8}.Release|iPhone.Build.0 = Release|iPhone
+		{4949B4F9-6729-45A7-807C-6C9EB97324A8}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{4949B4F9-6729-45A7-807C-6C9EB97324A8}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{5D0F31DB-6A1C-4A16-8A1F-AE0627C467ED}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{5D0F31DB-6A1C-4A16-8A1F-AE0627C467ED}.Debug|iPhone.Build.0 = Debug|iPhone
 		{5D0F31DB-6A1C-4A16-8A1F-AE0627C467ED}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator

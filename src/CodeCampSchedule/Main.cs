@@ -25,8 +25,11 @@ namespace CodeCampSchedule
 			// If you have defined a view, add it here:
 			// window.AddSubview (navigationController.View);
 			
-			navigationController = new NavigationController();
-			window.AddSubview(navigationController.View);
+			//navigationController = new NavigationController();
+			//window.AddSubview(navigationController.View);
+			
+			
+			
 			
 			
 			window.MakeKeyAndVisible ();

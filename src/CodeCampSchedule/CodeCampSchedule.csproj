@@ -95,4 +95,10 @@
       <Properties InternalTargetFrameworkVersion="IPhone" />
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeCampSchedule.Core\CodeCampSchedule.Core.csproj">
+      <Project>{4949B4F9-6729-45A7-807C-6C9EB97324A8}</Project>
+      <Name>CodeCampSchedule.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
