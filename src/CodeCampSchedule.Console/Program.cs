@@ -1,56 +1,37 @@
 ﻿using System;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
+using System.Web;
 using System.Xml.Linq;
+using CodeCampSchedule.Core;
 
 namespace CodeCampSchedule
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            var fileDownloader = new AsyncFileDownloader();
+            var dataExtractor = new DataExtractor();
+
             var waiter = new AutoResetEvent(false);
-//            DownloadFileAsync(waiter);
- //           waiter.WaitOne();
-            ExtractXML();
-            Console.Read();
-        }
+            fileDownloader.OnDownloadCompleted += (sender, e) => waiter.Set();
+            fileDownloader.DownloadFileAtUrl(
+                "http://codecamp.phillydotnet.org/2010-1/_layouts/listfeed.aspx?List={447CD038-3CF6-484F-9C0B-A1AE5D979519}",
+                "sessionList.xml");
+            waiter.WaitOne();
 
-        private static void DownloadFileAsync(AutoResetEvent waiter)
-        {
-            var webClient = new WebClient();
-            var address = new Uri("http://codecamp.phillydotnet.org/2010-1/_layouts/listfeed.aspx?List={447CD038-3CF6-484F-9C0B-A1AE5D979519}", UriKind.Absolute);
-            webClient.DownloadFileAsync(address, "sessionList.xml", waiter);
-            webClient.DownloadFileCompleted += webClient_DownloadFileCompleted;
-        }
-
-        static void webClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
-        {
-
-
-
-
-           ((AutoResetEvent) e.UserState).Set();
-
-
-        }
-
-        private static void ExtractXML()
-        {
-            var sessionXml = XDocument.Load("sessionList.xml");
-            var items = from item in sessionXml.Descendants("item")
-                        select new {
-                                       Title = item.Element("title").Value,
-                                       Link = item.Element(("link")),
-                                       Description = item.Element("description")
-                                   };
-            foreach (var item in items)
+            var sessionDtos = dataExtractor.GetSessionData("sessionList.xml");
+            int i = 0;
+            foreach (var session in sessionDtos)
             {
-                Console.WriteLine("{0}: {1}", item.Title, item.Description);
+                Console.WriteLine("{0}. {1} ({2}): {3}, {4}, {5}, {6} \nBIO:{7}\nPHOTO: {8}",
+                                  ++i, session.SpeakerName, session.Designation, session.Title, session.Time,
+                                  session.Track, session.Description, session.SpeakerBio, session.PhotoUrl);
             }
+
+            Console.Read();
         }
     }
 }
