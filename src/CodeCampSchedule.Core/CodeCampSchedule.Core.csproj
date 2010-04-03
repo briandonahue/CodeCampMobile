@@ -69,6 +69,7 @@
     <Compile Include="Data\TimeSlot.cs" />
     <Compile Include="Data\LastUpdate.cs" />
     <Compile Include="DatabaseFactory.cs" />
+    <Compile Include="HttpUtility.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

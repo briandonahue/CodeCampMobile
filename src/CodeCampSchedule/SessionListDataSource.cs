@@ -41,8 +41,9 @@ namespace CodeCampSchedule
 				// See the styles demo for different UITableViewCellAccessory
 				cell = new UITableViewCell(UITableViewCellStyle.Default, _section1CellId);
 			}
+				cell.TextLabel.Text = System.Web.HttpUtility.HtmlDecode(_items[indexPath.Row]);
 			
-			cell.TextLabel.Text = _items[indexPath.Row];
+		
 			
 			return cell;
 		}
@@ -54,9 +55,11 @@ namespace CodeCampSchedule
 		UIWebView webView;
 		public SessionTitleListCell(string cellId):base(UITableViewCellStyle.Default, cellId)
 		{
-			webView = new UIWebView(new RectangleF(0,0, 320, 50));
+			webView = new UIWebView(new RectangleF(ContentView.Bounds.Location, ContentView.Bounds.Size));
 			webView.BackgroundColor = UIColor.White;
-			this.AddSubview(webView);
+			
+			ContentView.AddSubview(webView);
+			Accessory = UITableViewCellAccessory.DisclosureIndicator;
 		}
 		
 		public void SetText(string text){
