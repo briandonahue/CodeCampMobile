@@ -6,13 +6,15 @@ namespace CodeCampSchedule.Core
 {
     public class AsyncFileDownloader
     {
-        public event EventHandler<AsyncCompletedEventArgs> OnDownloadCompleted;
+        public event EventHandler<DownloadDataCompletedEventArgs> OnDownloadCompleted;
+        public event EventHandler<ProgressChangedEventArgs> OnProgressChanged;
 
-        public void DownloadFileAtUrl(string url, string targetFile)
+        public void DownloadDataAtUrl(string url)
         {
             var webClient = new WebClient();
-            webClient.DownloadFileCompleted += (sender, e) => {if(OnDownloadCompleted != null) OnDownloadCompleted.Invoke(sender, e);};
-            webClient.DownloadFileAsync(new Uri(url), targetFile); 
+            webClient.DownloadDataCompleted += (sender, e) => {if(OnDownloadCompleted != null) OnDownloadCompleted.Invoke(sender, e);};
+            webClient.DownloadProgressChanged += (sender, e) => {if(OnProgressChanged != null) OnProgressChanged.Invoke(sender, e);};
+            webClient.DownloadDataAsync(new Uri(url)); 
         }
     }
 }

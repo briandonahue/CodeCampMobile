@@ -3,6 +3,7 @@ using System;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace CodeCampSchedule
 {
@@ -14,10 +15,10 @@ namespace CodeCampSchedule
 		private List<string> _items;
 		private string _section1CellId;
 
-		public SessionListDataSource ()
+		public SessionListDataSource (SessionListController controller)
 		{
 			_section1CellId = "cellid";
-			_items = new List<string> { "Session 1", "Session 2", "Session 3", "Session 4", "Session 5" };
+			_items = new List<string>(controller.Sessions);
 		}
 
 		public override string TitleForHeader (UITableView tableView, int section)
@@ -38,13 +39,28 @@ namespace CodeCampSchedule
 			
 			if (cell == null) {
 				// See the styles demo for different UITableViewCellAccessory
-				cell = new UITableViewCell (UITableViewCellStyle.Default, _section1CellId);
-				cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+				cell = new UITableViewCell(UITableViewCellStyle.Default, _section1CellId);
 			}
 			
 			cell.TextLabel.Text = _items[indexPath.Row];
 			
 			return cell;
+		}
+		
+	}
+	
+	public class SessionTitleListCell: UITableViewCell{
+		
+		UIWebView webView;
+		public SessionTitleListCell(string cellId):base(UITableViewCellStyle.Default, cellId)
+		{
+			webView = new UIWebView(new RectangleF(0,0, 320, 50));
+			webView.BackgroundColor = UIColor.White;
+			this.AddSubview(webView);
+		}
+		
+		public void SetText(string text){
+			webView.LoadHtmlString(text, new NSUrl("http://cnn.com"));
 		}
 		
 	}

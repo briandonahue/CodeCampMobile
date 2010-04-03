@@ -1,9 +1,14 @@
 
 using System;
+using System.Net;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using CodeCampSchedule.Core;
+using CodeCampSchedule.Core.Data;
 
 namespace CodeCampSchedule
 {
@@ -24,13 +29,17 @@ namespace CodeCampSchedule
 		{
 			// If you have defined a view, add it here:
 			// window.AddSubview (navigationController.View);
+			var alert = new UIAlertView{
+				Title = "Update Schedule", 
+				Message = "Would you like to get the latest schedule information?"};
+			alert.Delegate = new UpdateDataAlertViewDelegate();
 			
-			//navigationController = new NavigationController();
-			//window.AddSubview(navigationController.View);
+			alert.AddButton("No");
+			alert.AddButton("Yes");
+			alert.Show();
 			
-			
-			
-			
+			navigationController = new NavigationController();
+			window.AddSubview(navigationController.View);
 			
 			window.MakeKeyAndVisible ();
 			
@@ -41,5 +50,30 @@ namespace CodeCampSchedule
 		public override void OnActivated (UIApplication application)
 		{
 		}
+	}
+	
+	public class UpdateDataAlertViewDelegate: UIAlertViewDelegate{
+	
+		public override void Clicked (UIAlertView alertview, int buttonIndex)
+		{
+			Console.WriteLine("clicked");
+			if (buttonIndex != 0) {
+				var client = new WebClient ();
+				var data = client.DownloadData (new Uri ("http://codecamp.phillydotnet.org/2010-1/_layouts/listfeed.aspx?List={447CD038-3CF6-484F-9C0B-A1AE5D979519}"));
+				
+				var db = new Database ();
+				var times = db.GetAvailableTimeSlots ();
+				
+				var extractor = new DataExtractor ();
+				db.UpdateData (extractor.GetSessionData (times, new MemoryStream (data)));
+			}
+		}
+		
+		public override void Canceled (UIAlertView alertView)
+		{
+			Console.WriteLine("Canceled");
+		}
+
+
 	}
 }

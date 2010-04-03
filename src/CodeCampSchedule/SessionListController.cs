@@ -3,6 +3,10 @@ using System;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System.Collections.Generic;
+using CodeCampSchedule.Core;
+using CodeCampSchedule.Core.Data;
+using System.Linq;
+using SQLite;
 
 namespace CodeCampSchedule
 {
@@ -12,20 +16,23 @@ namespace CodeCampSchedule
 	{
 
 		string sessionTime;
-		IEnumerable<string> sessions;
+		public IEnumerable<string> Sessions{get; set;}
 		ISessionRepository sessionRepo;
+		SQLiteConnection db;
 		
 		public SessionListController (string sessionTime)
 		{
 			this.sessionTime = sessionTime;
-			sessionRepo = new StubSessionRepo();
 		}
 		
 		public override void ViewDidLoad ()
 		{
-			TableView.DataSource = new SessionListDataSource();
+			
+			db = new DatabaseFactory().InitDb();
+			var sessions = (from s in db.Table<Session>() select s);
+			Sessions = (from s in sessions where s.Time.ToString("h:mm") == sessionTime select s.Title).ToList();
+			TableView.DataSource = new SessionListDataSource(this);
 			TableView.Delegate = new SessionListTableDelegate(this);
-//			sessions = sessionRepo.GetSessionsForTime(sessionTime); 
 			base.ViewDidLoad ();
 		}
 

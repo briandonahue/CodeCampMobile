@@ -72,7 +72,6 @@
     <Compile Include="SessionTimeDataSource.cs" />
     <Compile Include="HomeTableDelegate.cs" />
     <Compile Include="SessionListController.cs" />
-    <Compile Include="StubSessionRepo.cs" />
     <Compile Include="ISessionRepository.cs" />
     <Compile Include="SessionListDataSource.cs" />
     <Compile Include="SessionListTableDelegate.cs" />
@@ -100,5 +99,10 @@
       <Project>{4949B4F9-6729-45A7-807C-6C9EB97324A8}</Project>
       <Name>CodeCampSchedule.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="sessions.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>
