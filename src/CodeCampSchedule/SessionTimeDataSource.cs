@@ -40,7 +40,6 @@ namespace CodeCampSchedule
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
 			// For more information on why this is necessary, see the Apple docs
-			var row = indexPath.Row;
 			UITableViewCell cell = tableView.DequeueReusableCell (section1CellId);
 			
 			if (cell == null) {

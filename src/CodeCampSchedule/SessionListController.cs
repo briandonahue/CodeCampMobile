@@ -16,8 +16,7 @@ namespace CodeCampSchedule
 	{
 
 		string sessionTime;
-		public IEnumerable<string> Sessions{get; set;}
-		ISessionRepository sessionRepo;
+		public IEnumerable<Session> Sessions{get; set;}
 		SQLiteConnection db;
 		
 		public SessionListController (string sessionTime)
@@ -27,12 +26,11 @@ namespace CodeCampSchedule
 		
 		public override void ViewDidLoad ()
 		{
-			
+			// TODO: Better manage the db connection lifetime
 			db = new DatabaseFactory().InitDb();
 			var sessions = (from s in db.Table<Session>() select s);
-			Sessions = (from s in sessions where s.Time.ToString("h:mm") == sessionTime select s.Title).ToList();
-			TableView.DataSource = new SessionListDataSource(this);
-			TableView.Delegate = new SessionListTableDelegate(this);
+			Sessions = (from s in sessions where s.Time.ToString("h:mm") == sessionTime select s).ToList();
+			TableView.Source = new SessionListDataSource(this);
 			base.ViewDidLoad ();
 		}
 

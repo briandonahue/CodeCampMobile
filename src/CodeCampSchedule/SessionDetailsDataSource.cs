@@ -3,6 +3,8 @@ using System;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System.Collections.Generic;
+using CodeCampSchedule.Core.Data;
+using System.Web;
 
 namespace CodeCampSchedule
 {
@@ -12,7 +14,7 @@ namespace CodeCampSchedule
 	{
 
 		IList<SessionSectionData> sectionData;
-		public SessionDetailsDataSource ()
+		public SessionDetailsDataSource (Session session)
 		{
 			var cellId = "section1";
 			sectionData = new List<SessionSectionData>{
@@ -20,9 +22,9 @@ namespace CodeCampSchedule
 					Title = "Session",
 					Data = new List<UITableViewCell>
 					{
-						new SessionTitleCell("Session Name Is Very Long", cellId),
+						new SessionTitleCell(session.Title, cellId),
 						new UITableViewCell(UITableViewCellStyle.Default, cellId),
-						new SessionTimeCell("8:30 AM", "Room 141", cellId)}
+						new SessionTimeCell(session.Time.ToString("h:mm"), HttpUtility.HtmlDecode(session.Track), cellId)}
 				}
 			};
 			
@@ -52,7 +54,6 @@ namespace CodeCampSchedule
 			var cell = tableView.DequeueReusableCell(cellId);
 			if(cell == null)
 			{
-				
 				cell = row;
 			}
 			

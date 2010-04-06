@@ -2,6 +2,8 @@
 using System;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CodeCampSchedule
 {
@@ -17,9 +19,6 @@ namespace CodeCampSchedule
 			sessionListController = controller;
 		}
 
-		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
-		{
-				sessionListController.NavigationController.PushViewController (new SessionDetailsController(), true);
-		}
+
 	}
 }
