@@ -17,3 +17,5 @@ _ReSharper.*
 *.log
 .idea
 *.resharper
+*.pidb
+
