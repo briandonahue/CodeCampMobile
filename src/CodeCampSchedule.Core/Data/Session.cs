@@ -10,6 +10,7 @@ namespace CodeCampSchedule.Core.Data
 		public string Title { get; set; }
         public string Description { get; set; }
         public string Track { get; set; }
+        public string Room { get; set; }
         public DateTime Time { get; set; }
         public string Designation { get; set; }
         public string SpeakerBio { get; set; }

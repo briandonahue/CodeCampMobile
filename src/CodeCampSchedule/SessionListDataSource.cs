@@ -83,7 +83,7 @@ namespace CodeCampSchedule
 		}
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
-		{
+		{	
 			var session = controller.Sessions.ElementAt(indexPath.Row);
 			controller.NavigationController.PushViewController (new SessionDetailsController (session), true);
 		}
