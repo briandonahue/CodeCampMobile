@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using CodeCampSchedule.Core.Data;
 using System.Web;
-using System.Drawing;
 using System.Linq;
 
 namespace CodeCampSchedule
@@ -16,7 +15,7 @@ namespace CodeCampSchedule
 	public class SessionListDataSource : UITableViewSource
 	{
 
-		private List<SessionCellData> _items;
+		private List<SessionListItemView> _items;
 		private string _section1CellId;
 		SessionListController controller;
 		UIFont titleFont;
@@ -26,16 +25,14 @@ namespace CodeCampSchedule
 		{
 			this.controller = controller;
 			_section1CellId = "cellid";
-			_items = new List<SessionCellData>(from s in controller.Sessions
+			_items = new List<SessionListItemView>(from s in controller.Sessions
 				orderby s.Title
-				select new SessionCellData { Title = HttpUtility.HtmlDecode (s.Title), Track = HttpUtility.HtmlDecode (s.Track) });
-			titleFont = UIFont.FromName ("Helvetica", 14f);
-			trackFont = UIFont.FromName ("Helvetica", 11f);
+				select new SessionListItemView{ Title = HttpUtility.HtmlDecode (s.Title), Track = HttpUtility.HtmlDecode (s.Track) });
 		}
 
 		public override string TitleForHeader (UITableView tableView, int section)
 		{
-			return "Items";
+			return controller.SessionTime;
 		}
 
 		public override int RowsInSection (UITableView tableview, int section)
@@ -58,26 +55,17 @@ namespace CodeCampSchedule
 			if (view == null) {
 				view = new SessionListItemView ();
 				view.Tag = 28;
-				cell.Frame = new RectangleF(0, 0, 320, sessionData.CellSize.Height);
-				RectangleF rect = new RectangleF(15, 0, 275, sessionData.CellSize.Height);
+				cell.Frame = new RectangleF(0, 0, 320, sessionData.CellSize);
+				RectangleF rect = new RectangleF(15, 0, 275, sessionData.CellSize);
 				view.Frame = rect;
 				
 				cell.ContentView.AddSubview (view);
 			}
 			
-			view.Title.Frame = new RectangleF(0, sessionData.TrackSize.Height + 10, 275, sessionData.TitleSize.Height); 
-			view.Title.Font = titleFont;
-			view.Title.Lines = 0;
-			view.Title.LineBreakMode = UILineBreakMode.WordWrap;
-			view.Title.Text = sessionData.Title;
+			view.Title = sessionData.Title;
+			view.Track = sessionData.Track;
 			
-			view.SubTitle.Frame = new RectangleF(0, 10, 275, sessionData.TrackSize.Height); 
-			view.SubTitle.Font = trackFont;
-			view.SubTitle.Lines = 0;
-			view.SubTitle.LineBreakMode = UILineBreakMode.WordWrap;
-			view.SubTitle.Text = sessionData.Track;
-			view.SubTitle.TextColor = UIColor.Gray;
-			
+	
 			
 			return cell;
 		}
@@ -91,13 +79,8 @@ namespace CodeCampSchedule
 		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
 			var cellData = _items[indexPath.Row];
-			if (cellData.CellSize.Height == 0) {
-				cellData.TitleSize = tableView.StringSize (cellData.Title, titleFont, new SizeF (275f, 1000f), UILineBreakMode.WordWrap);
-				cellData.TrackSize = tableView.StringSize (cellData.Track, trackFont, new SizeF (275f, 1000f), UILineBreakMode.WordWrap);
-				cellData.CellSize = new SizeF (cellData.TitleSize.Width, cellData.TitleSize.Height + cellData.TrackSize.Height + 20);
-			}
 			
-			return cellData.CellSize.Height;
+			return cellData.CellSize;
 			
 		}
 		
@@ -106,26 +89,60 @@ namespace CodeCampSchedule
 
 	public class SessionListItemView : UIView
 	{
-		public UILabel Title { get; set; }
-		public UILabel SubTitle{ get; set;}
+		public string Title { 
+			get { return titleView.Text ?? string.Empty;	 } 
+			set { 
+				titleView.Text = value; 
+				SetLabelHeights();
+			}
+		}
 
+		public string Track { 
+			get { return trackView.Text ?? string.Empty; }
+			set { 
+				trackView.Text = value; 
+				SetLabelHeights();
+			}
+		}
+
+		void SetLabelHeights ()
+		{
+			var stringSize = StringSize (Track, trackFont, new SizeF (275f, 1000f), UILineBreakMode.WordWrap);
+			trackView.Frame = new RectangleF(0, 10, 275f, stringSize.Height);
+			stringSize = StringSize (Title, titleFont, new SizeF (275f, 1000f), UILineBreakMode.WordWrap);
+			titleView.Frame = new RectangleF(0, trackView.Frame.Height + 10, 275f, stringSize.Height);
+		}
+
+		
+		public float CellSize { 
+			get{
+				return trackView.Frame.Height + titleView.Frame.Height +20;
+			}
+		}
+
+		UILabel titleView;
+		UILabel trackView;
+		UIFont titleFont = UIFont.FromName ("Helvetica", 14f);
+		UIFont trackFont = UIFont.FromName ("Helvetica", 11f);
 		public SessionListItemView ()
 		{
-			Title = new UILabel ();
-			SubTitle = new UILabel();
+			titleView = new UILabel ();
+			trackView = new UILabel();
+			titleView.Font = titleFont;
+			titleView.Lines = 0;
+			titleView.LineBreakMode = UILineBreakMode.WordWrap;
 			
-			AddSubview (Title);
-			AddSubview (SubTitle);
+			trackView.Font = trackFont;
+			trackView.Lines = 1;
+			trackView.LineBreakMode = UILineBreakMode.WordWrap;
+			trackView.Text = Track;
+			trackView.TextColor = UIColor.Gray;
+			
+		
+			
+			AddSubview (titleView);
+			AddSubview (trackView);
 		}
 	}
 
-	public class SessionCellData
-	{
-
-		public string Title { get; set; }
-		public string Track { get; set; }
-		public SizeF TitleSize { get; set; }
-		public SizeF TrackSize { get; set; }
-		public SizeF CellSize { get; set; }
-	}
 }
