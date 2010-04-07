@@ -29,7 +29,7 @@ namespace CodeCampSchedule
 			// TODO: Better manage the db connection lifetime
 			db = new DatabaseFactory().InitDb();
 			var sessions = (from s in db.Table<Session>() select s);
-			Sessions = (from s in sessions where s.Time.ToString("h:mm") == sessionTime select s).ToList();
+			Sessions = (from s in sessions where s.Time.ToString("h:mm") == sessionTime orderby s.Title select s).ToList();
 			TableView.Source = new SessionListDataSource(this);
 			base.ViewDidLoad ();
 		}
