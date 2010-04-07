@@ -74,7 +74,6 @@
     <Compile Include="SessionListController.cs" />
     <Compile Include="ISessionRepository.cs" />
     <Compile Include="SessionListDataSource.cs" />
-    <Compile Include="SessionListTableDelegate.cs" />
     <Compile Include="SessionDetailsController.cs" />
     <Compile Include="SessionDetails.xib.cs">
       <DependentUpon>SessionDetails.xib</DependentUpon>
@@ -83,6 +82,7 @@
       <DependentUpon>SessionDetails.xib</DependentUpon>
     </Compile>
     <Compile Include="SessionDetailsDataSource.cs" />
+    <Compile Include="ViewElements.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xib" />

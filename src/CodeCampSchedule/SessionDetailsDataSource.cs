@@ -24,7 +24,7 @@ namespace CodeCampSchedule
 					{
 						new SessionTitleCell(session.Title, cellId),
 						new UITableViewCell(UITableViewCellStyle.Default, cellId),
-						new SessionTimeCell(session.Time.ToString("h:mm"), HttpUtility.HtmlDecode(session.Track), cellId)}
+						new SessionTimeCell(session.Time.ToString("h:mm"), HttpUtility.HtmlDecode(session.Room), cellId)}
 				}
 			};
 			
