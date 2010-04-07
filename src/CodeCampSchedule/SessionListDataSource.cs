@@ -19,7 +19,8 @@ namespace CodeCampSchedule
 		private List<SessionCellData> _items;
 		private string _section1CellId;
 		SessionListController controller;
-		UIFont font;
+		UIFont titleFont;
+		UIFont trackFont;
 
 		public SessionListDataSource (SessionListController controller)
 		{
@@ -28,7 +29,8 @@ namespace CodeCampSchedule
 			_items = new List<SessionCellData>(from s in controller.Sessions
 				orderby s.Title
 				select new SessionCellData { Title = HttpUtility.HtmlDecode (s.Title), Track = HttpUtility.HtmlDecode (s.Track) });
-			font = UIFont.FromName ("Helvetica", 12f);
+			titleFont = UIFont.FromName ("Helvetica", 14f);
+			trackFont = UIFont.FromName ("Helvetica", 11f);
 		}
 
 		public override string TitleForHeader (UITableView tableView, int section)
@@ -48,6 +50,7 @@ namespace CodeCampSchedule
 			var cell = tableView.DequeueReusableCell (_section1CellId);
 			if (cell == null) {
 				cell = new UITableViewCell (UITableViewCellStyle.Default, _section1CellId);
+				cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 			}
 			
 			var sessionData = _items[indexPath.Row];
@@ -55,17 +58,25 @@ namespace CodeCampSchedule
 			if (view == null) {
 				view = new SessionListItemView ();
 				view.Tag = 28;
-				RectangleF rect = new RectangleF(0, 0, 320, sessionData.CellSize.Height);
+				cell.Frame = new RectangleF(0, 0, 320, sessionData.CellSize.Height);
+				RectangleF rect = new RectangleF(15, 0, 275, sessionData.CellSize.Height);
 				view.Frame = rect;
 				
 				cell.ContentView.AddSubview (view);
 			}
 			
-			view.Title.Frame = view.Frame;
-			
+			view.Title.Frame = new RectangleF(0, sessionData.TrackSize.Height + 10, 275, sessionData.TitleSize.Height); 
+			view.Title.Font = titleFont;
 			view.Title.Lines = 0;
 			view.Title.LineBreakMode = UILineBreakMode.WordWrap;
 			view.Title.Text = sessionData.Title;
+			
+			view.SubTitle.Frame = new RectangleF(0, 10, 275, sessionData.TrackSize.Height); 
+			view.SubTitle.Font = trackFont;
+			view.SubTitle.Lines = 0;
+			view.SubTitle.LineBreakMode = UILineBreakMode.WordWrap;
+			view.SubTitle.Text = sessionData.Track;
+			view.SubTitle.TextColor = UIColor.Gray;
 			
 			
 			return cell;
@@ -73,7 +84,7 @@ namespace CodeCampSchedule
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-			var session = controller.Sessions.ElementAt (indexPath.Row);
+			var session = controller.Sessions.ElementAt(indexPath.Row);
 			controller.NavigationController.PushViewController (new SessionDetailsController (session), true);
 		}
 
@@ -81,8 +92,9 @@ namespace CodeCampSchedule
 		{
 			var cellData = _items[indexPath.Row];
 			if (cellData.CellSize.Height == 0) {
-				cellData.TitleSize = tableView.StringSize (cellData.Title, font, new SizeF (237f, 1000f), UILineBreakMode.WordWrap);
-				cellData.CellSize = new SizeF (cellData.TitleSize.Width, cellData.TitleSize.Height + 20);
+				cellData.TitleSize = tableView.StringSize (cellData.Title, titleFont, new SizeF (275f, 1000f), UILineBreakMode.WordWrap);
+				cellData.TrackSize = tableView.StringSize (cellData.Track, trackFont, new SizeF (275f, 1000f), UILineBreakMode.WordWrap);
+				cellData.CellSize = new SizeF (cellData.TitleSize.Width, cellData.TitleSize.Height + cellData.TrackSize.Height + 20);
 			}
 			
 			return cellData.CellSize.Height;
@@ -95,13 +107,15 @@ namespace CodeCampSchedule
 	public class SessionListItemView : UIView
 	{
 		public UILabel Title { get; set; }
+		public UILabel SubTitle{ get; set;}
 
 		public SessionListItemView ()
 		{
 			Title = new UILabel ();
-			Title.Font= UIFont.FromName ("Helvetica", 12f);
+			SubTitle = new UILabel();
 			
 			AddSubview (Title);
+			AddSubview (SubTitle);
 		}
 	}
 
@@ -111,6 +125,7 @@ namespace CodeCampSchedule
 		public string Title { get; set; }
 		public string Track { get; set; }
 		public SizeF TitleSize { get; set; }
+		public SizeF TrackSize { get; set; }
 		public SizeF CellSize { get; set; }
 	}
 }
