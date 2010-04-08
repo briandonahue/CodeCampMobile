@@ -81,6 +81,7 @@
       <DependentUpon>SessionDetails.xib</DependentUpon>
     </Compile>
     <Compile Include="SessionDetailsDataSource.cs" />
+    <Compile Include="SessionListSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xib" />

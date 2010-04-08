@@ -30,7 +30,7 @@ namespace CodeCampSchedule
 			db = new DatabaseFactory().InitDb();
 			var sessions = (from s in db.Table<Session>() select s);
 			Sessions = (from s in sessions where s.Time.ToString("h:mm") == SessionTime orderby s.Title select s).ToList();
-			TableView.Source = new SessionListDataSource(this);
+			TableView.Source = new SessionListSource(this);
 			base.ViewDidLoad ();
 		}
 
