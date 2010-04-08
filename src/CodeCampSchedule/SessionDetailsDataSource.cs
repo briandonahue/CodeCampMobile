@@ -10,85 +10,109 @@ namespace CodeCampSchedule
 {
 
 
-	public class SessionDetailsDataSource: UITableViewDataSource
+	public class SessionDetailsDataSource : UITableViewDataSource
 	{
 
 		IList<SessionSectionData> sectionData;
 		public SessionDetailsDataSource (Session session)
 		{
 			var cellId = "section1";
-			sectionData = new List<SessionSectionData>{
-				new SessionSectionData(cellId){
-					Title = "Session",
+			
+				
+				
+			sectionData = new List<SessionSectionData> 
+			{ 
+				new SessionSectionData (cellId) 
+				{ 
+					Title = "Session", 
+					Data = new List<UITableViewCell> 
+					{ 
+						new SessionTitleCell (session.Title, cellId), 
+						new HeaderValueCell ("Speaker", session.SpeakerName, cellId), 
+						new HeaderValueCell ("Track", session.Track, cellId), 
+						new HeaderValueCell ("Time", session.Time.ToString ("h:mm"), cellId), 
+						new HeaderValueCell ("Room", session.Room, cellId) 
+					} 
+				},
+				new SessionSectionData (cellId)
+				{
+					Title = "Description",
 					Data = new List<UITableViewCell>
 					{
-						new SessionTitleCell(session.Title, cellId),
-						new UITableViewCell(UITableViewCellStyle.Default, cellId),
-						new SessionTimeCell(session.Time.ToString("h:mm"), HttpUtility.HtmlDecode(session.Room), cellId)}
+						new SessionTitleCell(session.Description, cellId)
+					}
 				}
 			};
 			
 		}
-		
+
 		public override string TitleForHeader (UITableView tableView, int section)
 		{
 			return sectionData[section].Title;
 		}
-		
+
 		public override int RowsInSection (UITableView tableview, int section)
 		{
 			return sectionData[section].Data.Count;
 		}
-		
+
 		public override int NumberOfSections (UITableView tableView)
 		{
 			return sectionData.Count;
 		}
-		
+
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
 			var section = sectionData[indexPath.Section];
 			var cellId = section.CellId;
 			var row = section.Data[indexPath.Row];
 			
-			var cell = tableView.DequeueReusableCell(cellId);
-			if(cell == null)
-			{
+			var cell = tableView.DequeueReusableCell (cellId);
+			if (cell == null) {
 				cell = row;
 			}
 			
 			return cell;
 		}
-
+		
 	}
-	
+
 	class SessionSectionData
 	{
-		public string Title {get; set;}
-		public string CellId {get;set;}
+		public string Title { get; set; }
+		public string CellId { get; set; }
 		public IList<UITableViewCell> Data { get; set; }
-		
-		public SessionSectionData(string cellId)
+
+		public SessionSectionData (string cellId)
 		{
 			CellId = cellId;
 		}
-	}		
-	
-	class SessionTitleCell: UITableViewCell
+	}
+
+	class SessionTitleCell : UITableViewCell
 	{
-		
-		public SessionTitleCell(string title, string cellId):base(UITableViewCellStyle.Default, cellId)
+
+		public SessionTitleCell (string title, string cellId) : base(UITableViewCellStyle.Default, cellId)
 		{
-			TextLabel.Text = title;			
+			TextLabel.Text = title;
 		}
 	}
-	
-	class SessionTimeCell: UITableViewCell
+
+	class SessionTimeCell : UITableViewCell
 	{
-		public SessionTimeCell(string time, string room, string cellId):base(UITableViewCellStyle.Subtitle, cellId)
+		public SessionTimeCell (string time, string room, string cellId) : base(UITableViewCellStyle.Subtitle, cellId)
 		{
 			TextLabel.Text = time;
 			this.DetailTextLabel.Text = room;
+		}
+	}
+
+	class HeaderValueCell : UITableViewCell
+	{
+		public HeaderValueCell (string header, string val, string cellId) : base(UITableViewCellStyle.Value1, cellId)
+		{
+			TextLabel.Text = header;
+			DetailTextLabel.Text = val;
 		}
 	}
 }
