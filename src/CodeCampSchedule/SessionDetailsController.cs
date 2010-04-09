@@ -18,7 +18,7 @@ namespace CodeCampSchedule
 		
 		public override void ViewDidLoad ()
 		{
-			TableView.DataSource = new SessionDetailsDataSource(Session);
+			TableView.Source = new SessionDetailsSource(Session);
 			
 			base.ViewDidLoad ();
 		}

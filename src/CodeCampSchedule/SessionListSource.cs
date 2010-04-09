@@ -25,7 +25,7 @@ namespace CodeCampSchedule
 			_section1CellId = "cellid";
 			_items = new List<SessionListItemView> (from s in controller.Sessions
 				orderby s.Title
-				select new SessionListItemView() { Title = HttpUtility.HtmlDecode (s.Title), Track = HttpUtility.HtmlDecode (s.Track) });
+				select new SessionListItemView() { Title = s.Title, Track = s.Track });
 		}
 
 		public override string TitleForHeader (UITableView tableView, int section)

@@ -5,16 +5,17 @@ using MonoTouch.UIKit;
 using System.Collections.Generic;
 using CodeCampSchedule.Core.Data;
 using System.Web;
+using System.Drawing;
 
 namespace CodeCampSchedule
 {
 
 
-	public class SessionDetailsDataSource : UITableViewDataSource
+	public class SessionDetailsSource : UITableViewSource
 	{
 
 		IList<SessionSectionData> sectionData;
-		public SessionDetailsDataSource (Session session)
+		public SessionDetailsSource (Session session)
 		{
 			var cellId = "section1";
 			
@@ -27,7 +28,7 @@ namespace CodeCampSchedule
 					Title = "Session", 
 					Data = new List<UITableViewCell> 
 					{ 
-						new SessionTitleCell (session.Title, cellId), 
+						new TextWrapCell(session.Title, UIFont.FromName("Helvetica-Bold", 14f), 275, cellId),
 						new HeaderValueCell ("Speaker", session.SpeakerName, cellId), 
 						new HeaderValueCell ("Track", session.Track, cellId), 
 						new HeaderValueCell ("Time", session.Time.ToString ("h:mm"), cellId), 
@@ -75,6 +76,13 @@ namespace CodeCampSchedule
 			return cell;
 		}
 		
+		
+		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
+		{
+			return sectionData[indexPath.Section].Data[indexPath.Row].Frame.Height;
+		}
+
+		
 	}
 
 	class SessionSectionData
@@ -98,15 +106,6 @@ namespace CodeCampSchedule
 		}
 	}
 
-	class SessionTimeCell : UITableViewCell
-	{
-		public SessionTimeCell (string time, string room, string cellId) : base(UITableViewCellStyle.Subtitle, cellId)
-		{
-			TextLabel.Text = time;
-			this.DetailTextLabel.Text = room;
-		}
-	}
-
 	class HeaderValueCell : UITableViewCell
 	{
 		public HeaderValueCell (string header, string val, string cellId) : base(UITableViewCellStyle.Value1, cellId)
@@ -115,4 +114,36 @@ namespace CodeCampSchedule
 			DetailTextLabel.Text = val;
 		}
 	}
+	
+	class TextWrapCell: UITableViewCell
+	{
+		UILabel labelView;
+		UIView view;
+		float width;
+		public TextWrapCell(string text, UIFont font, float width, string cellID):base(UITableViewCellStyle.Default, cellID)
+		{
+			this.width = width;
+			labelView = new UILabel
+			{
+				Text = text,
+				Font = font,
+				Lines = 0,
+				LineBreakMode = UILineBreakMode.WordWrap
+			};
+			SetLabelHeight(labelView);
+			view = new UIView();
+			Frame = new RectangleF(0, 0, 320, labelView.Frame.Height + 20);
+			view.Frame = new RectangleF(15, 0, 275, labelView.Frame.Height);
+			view.AddSubview(labelView);
+			ContentView.AddSubview(view);
+		}
+
+		void SetLabelHeight (UILabel label)
+		{
+			var stringSize = StringSize (label.Text, label.Font, new SizeF (width, 1000f), UILineBreakMode.WordWrap);
+			label.Frame = new RectangleF (0, 10, width, stringSize.Height);
+		}
+
+	}
+	
 }

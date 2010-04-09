@@ -80,8 +80,8 @@
     <Compile Include="SessionDetails.xib.designer.cs">
       <DependentUpon>SessionDetails.xib</DependentUpon>
     </Compile>
-    <Compile Include="SessionDetailsDataSource.cs" />
     <Compile Include="SessionListSource.cs" />
+    <Compile Include="SessionDetailsSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xib" />

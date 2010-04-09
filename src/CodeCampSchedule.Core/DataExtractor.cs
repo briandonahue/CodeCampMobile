@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.IO;
 using CodeCampSchedule.Core.Data;
+using System.Web;
 
 namespace CodeCampSchedule.Core
 {
@@ -37,10 +38,13 @@ namespace CodeCampSchedule.Core
 				var time = times.FirstOrDefault (t => timeString.Contains (t.Time.ToString ("h:mm")));
 				if (time.Time > DateTime.MinValue) {
 					yield return new Session { 
-						Title = titleEx.Match (item.Description).Groups[1].Value.Trim (), 
-						Track = trackEx.Match (item.Description).Groups[1].Value.Trim (), 
+						Title = HttpUtility.HtmlDecode(titleEx.Match (item.Description).Groups[1].Value.Trim ()), 
+						Track = HttpUtility.HtmlDecode(trackEx.Match (item.Description).Groups[1].Value.Trim ()), 
 						Room = roomEx.Match (item.Description).Groups[1].Value.Trim (), 
-						Time = time.Time, Designation = designationEx.Match (item.Description).Groups[1].Value.Trim (), Description = descEx.Match (item.Description).Groups[1].Value.Trim (), SpeakerBio = bioEx.Match (item.Description).Groups[1].Value.Trim (), SpeakerName = item.Name, 
+						Time = time.Time, Designation = designationEx.Match (item.Description).Groups[1].Value.Trim (), 
+						Description = HttpUtility.HtmlDecode(descEx.Match (item.Description).Groups[1].Value.Trim ()), 
+						SpeakerBio = HttpUtility.HtmlDecode(bioEx.Match (item.Description).Groups[1].Value.Trim ()), 
+						SpeakerName = item.Name, 
 						PhotoUrl = pictureEx.Match (item.Description).Groups[1].Value.Trim () };
 				} else {
 					continue;
